@@ -1,0 +1,16 @@
+import express from 'express';
+import * as api from './controllers/api.js';
+import { asyncHandler, errorHandler, notFound, ok } from './utils/http.js';
+const app=express();
+app.disable('x-powered-by');app.use(express.json({limit:'1mb'}));
+app.use((req,res,next)=>{ if(req.body === undefined) req.body = {}; if(req.body === null || typeof req.body !== 'object' || Array.isArray(req.body)) return res.status(400).json({error:'Request body harus berupa objek JSON'}); next(); });
+app.get('/',(req,res)=>ok(res,'Kasir API aktif',{status:'ok',service:'kasir-api'}));
+const route=(method,path,handler)=>app[method](path,asyncHandler(handler));
+route('get','/products',api.listProducts);route('get','/products/:id',api.getProduct);route('post','/products',api.createProduct);route('put','/products/:id',api.updateProduct);route('patch','/products/:id/stock',api.updateStock);route('delete','/products/:id',api.deleteProduct);
+route('get','/categories',api.listCategories);route('get','/categories/:id',api.getCategory);route('post','/categories',api.createCategory);route('put','/categories/:id',api.updateCategory);route('delete','/categories/:id',api.deleteCategory);
+route('get','/customers',api.listCustomers);route('post','/customers',api.createCustomer);route('put','/customers/:id',api.updateCustomer);route('delete','/customers/:id',api.deleteCustomer);
+route('get','/users',api.listUsers);route('post','/users',api.createUser);route('get','/payment-methods',api.listPaymentMethods);
+route('get','/transactions',api.listTransactions);route('get','/transactions/:id',api.getTransaction);route('post','/transactions',api.postTransaction);route('patch','/transactions/:id/cancel',api.patchCancel);
+route('get','/reports/daily-sales',api.dailySales);
+app.use(notFound);app.use(errorHandler);
+export default app;

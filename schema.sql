@@ -1,0 +1,15 @@
+CREATE SEQUENCE IF NOT EXISTS invoice_number_seq;
+CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(120) NOT NULL, email VARCHAR(255) NOT NULL UNIQUE, role VARCHAR(10) NOT NULL CHECK(role IN ('admin','kasir')), created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE, description TEXT);
+CREATE TABLE IF NOT EXISTS products (id SERIAL PRIMARY KEY, category_id INTEGER NOT NULL REFERENCES categories(id), sku VARCHAR(60) NOT NULL UNIQUE, name VARCHAR(180) NOT NULL, price INTEGER NOT NULL CHECK(price >= 0), stock INTEGER NOT NULL DEFAULT 0 CHECK(stock >= 0), is_active BOOLEAN NOT NULL DEFAULT true, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS customers (id SERIAL PRIMARY KEY, name VARCHAR(120) NOT NULL, phone VARCHAR(30) UNIQUE, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS payment_methods (id SERIAL PRIMARY KEY, name VARCHAR(60) NOT NULL UNIQUE);
+CREATE TABLE IF NOT EXISTS transactions (id SERIAL PRIMARY KEY, invoice_number VARCHAR(40) NOT NULL UNIQUE, user_id INTEGER NOT NULL REFERENCES users(id), customer_id INTEGER REFERENCES customers(id) ON DELETE SET NULL, payment_method_id INTEGER NOT NULL REFERENCES payment_methods(id), total_amount INTEGER NOT NULL CHECK(total_amount >= 0), paid_amount INTEGER NOT NULL CHECK(paid_amount >= 0), change_amount INTEGER NOT NULL CHECK(change_amount >= 0), status VARCHAR(12) NOT NULL DEFAULT 'selesai' CHECK(status IN ('selesai','dibatalkan')), created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS transaction_items (id SERIAL PRIMARY KEY, transaction_id INTEGER NOT NULL REFERENCES transactions(id) ON DELETE CASCADE, product_id INTEGER NOT NULL REFERENCES products(id), quantity INTEGER NOT NULL CHECK(quantity > 0), unit_price INTEGER NOT NULL CHECK(unit_price >= 0), subtotal INTEGER NOT NULL CHECK(subtotal >= 0), UNIQUE(transaction_id,product_id));
+CREATE INDEX IF NOT EXISTS idx_products_category_id ON products(category_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_id ON transactions(user_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_customer_id ON transactions(customer_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_payment_method_id ON transactions(payment_method_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_created_at ON transactions(created_at);
+CREATE INDEX IF NOT EXISTS idx_transaction_items_transaction_id ON transaction_items(transaction_id);
+CREATE INDEX IF NOT EXISTS idx_transaction_items_product_id ON transaction_items(product_id);

@@ -1,0 +1,45 @@
+{
+  "info": { "name": "Kasir API", "description": "Koleksi seluruh endpoint Kasir API. Jalankan dengan database seed.sql. Ubah base_url sesuai server.", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [{ "key": "base_url", "value": "http://localhost:3000" }, { "key": "product_id", "value": "1" }, { "key": "category_id", "value": "1" }, { "key": "customer_id", "value": "1" }, { "key": "transaction_id", "value": "1" }],
+  "item": [
+    { "name": "Health", "item": [{ "name": "GET /", "request": { "method": "GET", "url": "{{base_url}}/" } }] },
+    { "name": "Products", "item": [
+      { "name": "GET /products (filter & pagination)", "request": { "method": "GET", "url": "{{base_url}}/products?search=mi&category_id=1&page=1&limit=10" } },
+      { "name": "GET /products/:id", "request": { "method": "GET", "url": "{{base_url}}/products/{{product_id}}" } },
+      { "name": "POST /products sukses", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"category_id\": 1, \"sku\": \"MKN-BARU-01\", \"name\": \"Produk Contoh\", \"price\": 15000, \"stock\": 10, \"is_active\": true\n}" }, "url": "{{base_url}}/products" } },
+      { "name": "POST /products error validasi", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"category_id\": 1, \"sku\": \"MKN-001\", \"name\": \"Duplikat SKU\", \"price\": -1\n}" }, "url": "{{base_url}}/products" } },
+      { "name": "PUT /products/:id", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"category_id\": 1, \"sku\": \"MKN-001\", \"name\": \"Beras 5 kg\", \"price\": 72000, \"stock\": 30, \"is_active\": true\n}" }, "url": "{{base_url}}/products/{{product_id}}" } },
+      { "name": "PATCH /products/:id/stock", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"stock\": 25}" }, "url": "{{base_url}}/products/{{product_id}}/stock" } },
+      { "name": "DELETE /products/:id (gunakan produk uji)", "request": { "method": "DELETE", "url": "{{base_url}}/products/11" } }
+    ] },
+    { "name": "Categories", "item": [
+      { "name": "GET /categories", "request": { "method": "GET", "url": "{{base_url}}/categories" } },
+      { "name": "GET /categories/:id", "request": { "method": "GET", "url": "{{base_url}}/categories/{{category_id}}" } },
+      { "name": "POST /categories sukses", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Kategori Uji\",\"description\":\"Contoh\"}" }, "url": "{{base_url}}/categories" } },
+      { "name": "PUT /categories/:id", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Makanan\",\"description\":\"Makanan dan bahan pangan\"}" }, "url": "{{base_url}}/categories/{{category_id}}" } },
+      { "name": "DELETE /categories/:id konflik jika dipakai", "request": { "method": "DELETE", "url": "{{base_url}}/categories/{{category_id}}" } }
+    ] },
+    { "name": "Customers", "item": [
+      { "name": "GET /customers", "request": { "method": "GET", "url": "{{base_url}}/customers" } },
+      { "name": "POST /customers", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Pelanggan Baru\",\"phone\":\"081299991234\"}" }, "url": "{{base_url}}/customers" } },
+      { "name": "PUT /customers/:id", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Budi Santoso\",\"phone\":\"081200000001\"}" }, "url": "{{base_url}}/customers/{{customer_id}}" } },
+      { "name": "DELETE /customers/:id", "request": { "method": "DELETE", "url": "{{base_url}}/customers/4" } }
+    ] },
+    { "name": "Users", "item": [
+      { "name": "GET /users", "request": { "method": "GET", "url": "{{base_url}}/users" } },
+      { "name": "POST /users", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Kasir Baru\",\"email\":\"kasir.baru@example.test\",\"role\":\"kasir\"}" }, "url": "{{base_url}}/users" } }
+    ] },
+    { "name": "Payment methods", "item": [{ "name": "GET /payment-methods", "request": { "method": "GET", "url": "{{base_url}}/payment-methods" } }] },
+    { "name": "Transactions", "item": [
+      { "name": "GET /transactions filter", "request": { "method": "GET", "url": "{{base_url}}/transactions?date=2026-10-25&user_id=2" } },
+      { "name": "GET /transactions/:id", "request": { "method": "GET", "url": "{{base_url}}/transactions/{{transaction_id}}" } },
+      { "name": "POST /transactions sukses", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"user_id\": 1, \"customer_id\": 2, \"payment_method_id\": 1, \"paid_amount\": 100000,\n  \"items\": [{\"product_id\": 3, \"quantity\": 2}, {\"product_id\": 5, \"quantity\": 1}]\n}" }, "url": "{{base_url}}/transactions" } },
+      { "name": "POST /transactions error stok tidak cukup", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"user_id\":1,\"payment_method_id\":1,\"paid_amount\":9999999,\"items\":[{\"product_id\":1,\"quantity\":999999}] }" }, "url": "{{base_url}}/transactions" } },
+      { "name": "POST /transactions error bayar kurang", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"user_id\":1,\"payment_method_id\":1,\"paid_amount\":1,\"items\":[{\"product_id\":3,\"quantity\":1}] }" }, "url": "{{base_url}}/transactions" } },
+      { "name": "PATCH /transactions/:id/cancel", "request": { "method": "PATCH", "url": "{{base_url}}/transactions/{{transaction_id}}/cancel" } },
+      { "name": "PATCH cancel transaksi kedua (error 409)", "request": { "method": "PATCH", "url": "{{base_url}}/transactions/{{transaction_id}}/cancel" } }
+    ] },
+    { "name": "Reports", "item": [{ "name": "GET /reports/daily-sales", "request": { "method": "GET", "url": "{{base_url}}/reports/daily-sales?date=2026-10-25" } }] },
+    { "name": "404 route", "item": [{ "name": "GET /route-tidak-ada", "request": { "method": "GET", "url": "{{base_url}}/route-tidak-ada" } }] }
+  ]
+}
