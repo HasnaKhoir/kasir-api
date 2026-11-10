@@ -21,7 +21,7 @@ erDiagram
 ```
 ### ERD (dbdiagram.io)
 
-![ERD dbdiagram.io](<hasil ss-nya [API]/ERD_dbdiagram.png>)
+![ERD dbdiagram.io](<hasil_ss_API/ERD_dbdiagram.png>)
 
 Skema lengkap, indeks FK, constraint stok/harga/kuantitas, dan seed tersedia di `schema.sql` serta `seed.sql`. ERD format dbdiagram.io tersedia di `erd.dbml`.
 
@@ -290,24 +290,24 @@ Pengujian dilakukan lewat Postman terhadap deployment Vercel
 `postman_collection.json`.
 
 ### Variabel base_url
-![Variabel base_url ke Vercel](<hasil ss-nya [API]/00_Variabel_base_url.png>)
+![Variabel base_url ke Vercel](<hasil_ss_API/00_Variabel_base_url.png>)
 
 ### Health check
-![Health check (200)](image.png)
+![Health check](hasil_ss_API/01_Health_GET_200.png)
 
 ### Products
-![GET products (200)](<hasil ss-nya [API]/02_Product_GET_List_200.png>)
-![POS eror validation (400)](<hasil ss-nya [API]/05_Product_POST_eror-validasi_400.png>)
+![GET products (200)](<hasil_ss_API/02_Product_GET_List_200.png>)
+![POS eror validation (400)](<hasil_ss_API/05_Product_POST_eror-validasi_400.png>)
 
 ### Categories
-![Hapus kategori yang masih di pakai (409)](image-1.png)
+![Hapus kategori yang masih di pakai (409)](hasil_ss_API/13_Categories_DELETE_id_409.png)
 
 ### Transactions
-![Transaksi sukses (201)](<hasil ss-nya [API]/23_Transactions_POST_sukses_201.png>)
-![Stok tidak cukup (400)](<hasil ss-nya [API]/24_Transactions_POST_eror_400.png>)
-![Bayar kurang (400)](<hasil ss-nya [API]/25_Transactions_POST_bayar-kurang_400.png>)
-![Batalkan transaksi (200)](<hasil ss-nya [API]/26_Transactions_PATCH_cancel_200.png>)
-![Batalkan ulang (409)](<hasil ss-nya [API]/27_Transactions_PATCH_cancel-kedua_409.png>)
+![Transaksi sukses (201)](<hasil_ss_API/23_Transactions_POST_sukses_201.png>)
+![Stok tidak cukup (400)](<hasil_ss_API/24_Transactions_POST_eror_400.png>)
+![Bayar kurang (400)](<hasil_ss_API/25_Transactions_POST_bayar-kurang_400.png>)
+![Batalkan transaksi (200)](<hasil_ss_API/26_Transactions_PATCH_cancel_200.png>)
+![Batalkan ulang (409)](<hasil_ss_API/27_Transactions_PATCH_cancel-kedua_409.png>)
 
 ### Report
-![Laporan penjualan harian (200)](<hasil ss-nya [API]/28_Reports_GET_cancel_200.png>)
+![Laporan penjualan harian (200)](<hasil_ss_API/28_Reports_GET_cancel_200.png>)
