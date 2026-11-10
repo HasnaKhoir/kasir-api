@@ -19,6 +19,9 @@ erDiagram
   TRANSACTIONS ||--|{ TRANSACTION_ITEMS : berisi
   PRODUCTS ||--o{ TRANSACTION_ITEMS : tercatat
 ```
+### ERD (dbdiagram.io)
+
+![ERD dbdiagram.io](<hasil ss-nya [API]/ERD_dbdiagram.png>)
 
 Skema lengkap, indeks FK, constraint stok/harga/kuantitas, dan seed tersedia di `schema.sql` serta `seed.sql`. ERD format dbdiagram.io tersedia di `erd.dbml`.
 
